@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: MagicFridgeAI
+
+  datasource:
+    url: jdbc:postgresql://localhost:5431/magic-fridge-ai
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
+  flyway:
+    enabled: true
