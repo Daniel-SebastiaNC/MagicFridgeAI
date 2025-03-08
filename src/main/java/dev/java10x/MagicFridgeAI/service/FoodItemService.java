@@ -1,6 +1,7 @@
 package dev.java10x.MagicFridgeAI.service;
 
 import dev.java10x.MagicFridgeAI.controller.request.FoodItemRequest;
+import dev.java10x.MagicFridgeAI.exception.DataNotFoundException;
 import dev.java10x.MagicFridgeAI.mapper.FoodItemMapper;
 import dev.java10x.MagicFridgeAI.model.FoodItem;
 import dev.java10x.MagicFridgeAI.repository.FoodItemRepository;
@@ -26,7 +27,7 @@ public class FoodItemService {
     }
 
     public FoodItem getFoodById(Long id) {
-        return foodItemRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        return foodItemRepository.findById(id).orElseThrow(() -> new DataNotFoundException("FoodItem Not Found"));
     }
 
     public FoodItem updateFoodById(Long id, FoodItemRequest foodItemRequest) {
