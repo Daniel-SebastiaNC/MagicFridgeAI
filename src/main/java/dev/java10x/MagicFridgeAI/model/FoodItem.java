@@ -4,7 +4,7 @@ import dev.java10x.MagicFridgeAI.enums.Category;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Setter
 @Getter
@@ -23,11 +23,12 @@ public class FoodItem {
     private String name;
 
     @Column(length = 100, nullable = false)
+    @Enumerated(EnumType.STRING)
     private Category category;
 
     @Column(nullable = false)
     private Integer quantity;
 
     @Column(nullable = false)
-    private LocalDateTime validity;
+    private LocalDate validity;
 }
