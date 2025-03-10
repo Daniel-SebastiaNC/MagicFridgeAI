@@ -14,3 +14,10 @@ spring:
 
   flyway:
     enabled: true
+
+chatgpt:
+  api:
+    url: https://api.openai.com/v1/chat/completions
+
+api:
+  key: ${API_KEY}
