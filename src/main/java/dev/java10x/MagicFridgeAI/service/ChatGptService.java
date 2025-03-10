@@ -1,5 +1,6 @@
 package dev.java10x.MagicFridgeAI.service;
 
+import dev.java10x.MagicFridgeAI.model.FoodItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -8,6 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -17,14 +19,19 @@ public class ChatGptService {
     private final WebClient webClient;
     private String apiKey = System.getenv("API_KEY");
 
-    public Mono generateRecipe(){
-        String prompt = "Me sugirar receitas com ingredientes comuns, sem leite, pois tenho intolerância";
+    public Mono generateRecipe(List<FoodItem> allFood){
+        String food = allFood.stream()
+                .map( item -> String.format("%s (%s) - Quantidade: %d, Validade: %s",
+                        item.getName(), item.getCategory(), item.getQuantity(), item.getValidity()))
+                .collect(Collectors.joining("\n"));
+
+        String prompt = "Baseado nos seguintes alimentos, sugira uma receita criativa e prática:\n" + food;
 
         Map<String, Object> requestBody = Map.of(
                 "model", "gpt-4o-mini",
                 "messages", List.of(
                         Map.of("role", "system", "content", "Você é um assistente que cria receitas."),
-                        Map.of("role", "user", "content", "Me sugirar receitas com ingredientes comuns, sem leite, pois tenho intolerância")
+                        Map.of("role", "user", "content", prompt)
                 )
         );
 
